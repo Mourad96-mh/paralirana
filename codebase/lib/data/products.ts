@@ -1,151 +1,101 @@
 // ---------------------------------------------------------------------------
-// Server-only product data access (MongoDB).
+// Catalog data access for the STATIC EXPORT build.
 //
-// Replaces the old static helpers from lib/products.ts. Every function returns
-// plain, serializable `Product` objects (safe to pass to Client Components).
-// Accessors fail SOFT: if the DB is unreachable they log a warning and return
-// empty results so `next build` never hard-crashes on a missing connection.
+// The source of truth is the Express API (server/, on Render). At build time
+// scripts/sync-content.mjs fetches it and writes lib/catalog.data.json, which is
+// baked into the static HTML here (SEO). This module is client-safe (no DB, no
+// server-only import), so client components — e.g. the search page — can reuse
+// the same finders. Functions stay async to keep the pages/components unchanged.
 // ---------------------------------------------------------------------------
 
-import "server-only";
-import { connectDB } from "@/lib/db";
-import ProductModel from "@/models/Product";
+import rawCatalog from "@/lib/catalog.data.json";
 import type { Product } from "@/lib/products";
 
-type LeanProduct = {
-  _id: unknown;
+// The snapshot may come from the seed (no _id) or the API (fromDbProduct → _id + isNew).
+type RawProduct = Record<string, unknown> & {
+  _id?: string;
+  id?: string;
   slug: string;
   name: string;
   brand: string;
   category: string;
-  subcategory?: string;
   price: number;
-  oldPrice?: number;
-  image?: string;
-  shortDescription?: string;
-  description?: string;
-  conseils?: string;
-  composition?: string;
-  features?: string[];
-  rating?: number;
-  reviews?: number;
-  inStock?: boolean;
-  newArrival?: boolean; // stored name for the app-facing `isNew` (reserved key)
-  isBestseller?: boolean;
+  newArrival?: boolean;
+  isNew?: boolean;
 };
 
-function toProduct(doc: LeanProduct): Product {
+function toProduct(d: RawProduct): Product {
   return {
-    id: String(doc._id),
-    slug: doc.slug,
-    name: doc.name,
-    brand: doc.brand,
-    category: doc.category,
-    subcategory: doc.subcategory ?? undefined,
-    price: doc.price,
-    oldPrice: doc.oldPrice ?? undefined,
-    image: doc.image ?? undefined,
-    shortDescription: doc.shortDescription ?? "",
-    description: doc.description ?? "",
-    conseils: doc.conseils ?? "",
-    composition: doc.composition ?? "",
-    features: doc.features ?? [],
-    rating: doc.rating ?? 0,
-    reviews: doc.reviews ?? 0,
-    inStock: doc.inStock ?? true,
-    isNew: doc.newArrival ?? false,
-    isBestseller: doc.isBestseller ?? false,
+    id: String(d.id ?? d._id ?? d.slug),
+    slug: d.slug,
+    name: d.name,
+    brand: d.brand,
+    category: d.category,
+    subcategory: (d.subcategory as string) ?? undefined,
+    price: d.price,
+    oldPrice: (d.oldPrice as number) ?? undefined,
+    image: (d.image as string) ?? undefined,
+    shortDescription: (d.shortDescription as string) ?? "",
+    description: (d.description as string) ?? "",
+    conseils: (d.conseils as string) ?? "",
+    composition: (d.composition as string) ?? "",
+    features: (d.features as string[]) ?? [],
+    rating: (d.rating as number) ?? 0,
+    reviews: (d.reviews as number) ?? 0,
+    inStock: (d.inStock as boolean) ?? true,
+    isNew: ((d.isNew ?? d.newArrival) as boolean) ?? false,
+    isBestseller: (d.isBestseller as boolean) ?? false,
   };
 }
 
-async function queryProducts(
-  filter: Record<string, unknown> = {}
-): Promise<Product[]> {
-  try {
-    await connectDB();
-    const docs = await ProductModel.find(filter)
-      .sort({ createdAt: -1 })
-      .lean<LeanProduct[]>();
-    return docs.map(toProduct);
-  } catch (err) {
-    console.warn(
-      "[products] DB unavailable, returning empty list:",
-      (err as Error).message
-    );
-    return [];
-  }
-}
+const ALL: Product[] = (rawCatalog as RawProduct[]).map(toProduct);
 
 export function getProducts(): Promise<Product[]> {
-  return queryProducts();
+  return Promise.resolve(ALL);
 }
 
 export function getProductsByCategory(slug: string): Promise<Product[]> {
-  return queryProducts({ category: slug });
+  return Promise.resolve(ALL.filter((p) => p.category === slug));
 }
 
-function escapeRegex(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+export function getProductBySlug(slug: string): Promise<Product | undefined> {
+  return Promise.resolve(ALL.find((p) => p.slug === slug));
 }
 
-// Match by brand name, case-insensitive exact (products store the display name,
-// e.g. "Eucerin"). Brand names come from our curated list, but we escape anyway.
+// Brand match, case-insensitive exact (products store the display name, e.g. "Eucerin").
 export function getProductsByBrand(name: string): Promise<Product[]> {
-  return queryProducts({
-    brand: { $regex: `^${escapeRegex(name)}$`, $options: "i" },
-  });
+  const n = name.trim().toLowerCase();
+  return Promise.resolve(ALL.filter((p) => p.brand.toLowerCase() === n));
 }
 
 // Accent- + case-insensitive search over name + brand + shortDescription.
-// MongoDB $regex ignores collation (so "avene" would miss "Avène"), and the
-// catalog is small, so we normalize and match in memory instead. Every token in
-// the query must appear somewhere in the product's searchable text.
 const normalize = (s: string) =>
   (s || "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "");
 
-export async function searchProducts(query: string): Promise<Product[]> {
+export function searchProducts(query: string): Product[] {
   const tokens = normalize(query).split(/\s+/).filter(Boolean);
   if (!tokens.length) return [];
-  const all = await getProducts();
-  return all.filter((p) => {
+  return ALL.filter((p) => {
     const haystack = normalize(`${p.name} ${p.brand} ${p.shortDescription}`);
     return tokens.every((t) => haystack.includes(t));
   });
 }
 
-export async function getProductBySlug(
-  slug: string
-): Promise<Product | undefined> {
-  try {
-    await connectDB();
-    const doc = await ProductModel.findOne({ slug }).lean<LeanProduct | null>();
-    return doc ? toProduct(doc) : undefined;
-  } catch (err) {
-    console.warn(
-      "[products] DB unavailable for slug",
-      slug,
-      (err as Error).message
-    );
-    return undefined;
-  }
+export function getFeatured(limit = 8): Promise<Product[]> {
+  const featured = ALL.filter((p) => p.isBestseller || p.isNew);
+  return Promise.resolve(featured.slice(0, limit));
 }
 
-export async function getFeatured(limit = 8): Promise<Product[]> {
-  const all = await queryProducts({
-    $or: [{ isBestseller: true }, { newArrival: true }],
-  });
-  return all.slice(0, limit);
+export function getAllBrands(): Promise<string[]> {
+  return Promise.resolve(Array.from(new Set(ALL.map((p) => p.brand))).sort());
 }
 
-export async function getAllBrands(): Promise<string[]> {
-  const all = await getProducts();
-  return Array.from(new Set(all.map((p) => p.brand))).sort();
-}
-
-export async function getRelated(product: Product, limit = 4): Promise<Product[]> {
-  const inCategory = await getProductsByCategory(product.category);
-  return inCategory.filter((p) => p.id !== product.id).slice(0, limit);
+export function getRelated(product: Product, limit = 4): Promise<Product[]> {
+  const inCategory = ALL.filter(
+    (p) => p.category === product.category && p.id !== product.id
+  );
+  return Promise.resolve(inCategory.slice(0, limit));
 }

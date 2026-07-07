@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import AdminShell from "@/components/admin/AdminShell";
+import { adminApi } from "@/lib/adminApi";
 import { categories } from "@/lib/products";
 import { formatMAD } from "@/lib/format";
 
@@ -122,9 +123,8 @@ export default function ProductsAdmin() {
   async function load() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
-      setProducts(data.products || []);
+      const data = await adminApi.listProducts();
+      setProducts(data || []);
     } finally {
       setLoading(false);
     }
@@ -169,22 +169,15 @@ export default function ProductsAdmin() {
     }
     setSaving(true);
     try {
-      const isNew = editingId === "new";
-      const res = await fetch(
-        isNew ? "/api/admin/products" : `/api/admin/products/${editingId}`,
-        {
-          method: isNew ? "POST" : "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(toPayload(form)),
-        }
-      );
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Échec de l'enregistrement");
-        return;
+      if (editingId === "new") {
+        await adminApi.createProduct(toPayload(form));
+      } else {
+        await adminApi.updateProduct(editingId!, toPayload(form));
       }
       close();
       await load();
+    } catch (err) {
+      setError((err as Error).message || "Échec de l'enregistrement");
     } finally {
       setSaving(false);
     }
@@ -193,10 +186,12 @@ export default function ProductsAdmin() {
   async function remove(p: AdminProduct) {
     if (!confirm(`Supprimer « ${p.name} » ? Cette action est irréversible.`))
       return;
-    const res = await fetch(`/api/admin/products/${p._id}`, {
-      method: "DELETE",
-    });
-    if (res.ok) await load();
+    try {
+      await adminApi.deleteProduct(p._id);
+      await load();
+    } catch (err) {
+      setError((err as Error).message || "Échec de la suppression");
+    }
   }
 
   async function onUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -205,17 +200,12 @@ export default function ProductsAdmin() {
     setUploading(true);
     setError("");
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(
-          data.error || "Téléversement impossible — collez une URL d'image."
-        );
-        return;
-      }
+      const data = await adminApi.upload(file);
       setForm((f) => ({ ...f, image: data.url }));
+    } catch (err) {
+      setError(
+        (err as Error).message || "Téléversement impossible — collez une URL d'image."
+      );
     } finally {
       setUploading(false);
       e.target.value = "";

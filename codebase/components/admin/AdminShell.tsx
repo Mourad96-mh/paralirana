@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { clearToken, isAuthed } from "@/lib/adminApi";
 
 const NAV = [
   { href: "/admin", label: "Tableau de bord", icon: "📊" },
@@ -20,12 +21,30 @@ export default function AdminShell({
   const pathname = usePathname();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [ready, setReady] = useState(false);
 
-  async function logout() {
+  // Auth guard (middleware is gone in the static export): redirect to login if
+  // there's no token. Runs client-side once mounted.
+  useEffect(() => {
+    if (!isAuthed()) {
+      router.replace("/admin/login");
+    } else {
+      setReady(true);
+    }
+  }, [router]);
+
+  function logout() {
     setLoggingOut(true);
-    await fetch("/api/auth/logout", { method: "POST" });
+    clearToken();
     router.replace("/admin/login");
-    router.refresh();
+  }
+
+  if (!ready) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-muted">
+        Chargement…
+      </div>
+    );
   }
 
   return (

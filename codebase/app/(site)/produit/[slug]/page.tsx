@@ -12,7 +12,6 @@ import ProductImage from "@/components/ProductImage";
 import ProductCard from "@/components/ProductCard";
 import AddToCartButton from "@/components/AddToCartButton";
 
-export const revalidate = 3600;
 
 // Absolute URL for a stored image path — required by JSON-LD and reliable for
 // Open Graph (relative OG image paths aren't consistently resolved to absolute).

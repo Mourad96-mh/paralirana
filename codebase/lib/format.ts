@@ -26,7 +26,7 @@ export const PHONE_DISPLAY = PHONE_TEL.replace(
 export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP || phoneDigits;
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://paralirana.ma";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://paralirana.com";
 
 // Business address (single source of truth for display + JSON-LD).
 export const ADDRESS_STREET =

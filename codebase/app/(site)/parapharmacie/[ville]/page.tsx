@@ -8,7 +8,6 @@ import { SITE_URL, waLink } from "@/lib/format";
 import ProductCard from "@/components/ProductCard";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 
-export const revalidate = 3600;
 
 export function generateStaticParams() {
   return cities.map((c) => ({ ville: c.slug }));

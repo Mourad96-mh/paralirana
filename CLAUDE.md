@@ -41,32 +41,40 @@ delivery across Morocco.
 
 ## Stack
 
-- Framework: **Next.js 14 (App Router) + TypeScript** — outputs crawlable HTML per route.
-  Public pages are statically rendered with **ISR** (`revalidate` + on-demand
-  `revalidatePath` when admin edits), so they stay SSG/SEO-friendly while reading live data.
-  Not a client-only SPA.
+> **Architecture = SPLIT** (headless, like the algopharma project), decided 2026-07-07.
+> Frontend and backend deploy separately. See `DEPLOYMENT.md`.
+
+- **Frontend:** **Next.js 14 (App Router) + TypeScript**, built as a **static export**
+  (`output: 'export'`, `trailingSlash: true`) → `codebase/out/`, hosted on **Hostinger**.
+  Crawlable HTML per route (SEO). The catalog is baked at build from a snapshot
+  (`codebase/lib/catalog.data.json`, written by `scripts/sync-content.mjs` fetching the API)
+  and can refresh live from the API in the browser. Not a client-only SPA.
+- **Backend:** a standalone **Express API** in **`codebase/server/`** (plain ESM JS,
+  Mongoose + Cloudinary + JWT bearer auth), hosted on **Render** (`render.yaml`, `paralirana-api`).
 - Styling: **Tailwind CSS**
-- Database: **MongoDB Atlas** (Mongoose). The product catalog and all orders live in the DB.
-- Admin dashboard: a custom **`/admin`** back-office (built in-app, not a separate server) lets
-  the non-technical client manage products and view/update orders in the browser.
-  _(This replaces the earlier "Phase 2 = Sanity CMS" plan — we built a custom admin + DB instead.)_
-- Ordering: **cart → save order to DB, then pre-filled WhatsApp message** (wa.me deep link).
-  Orders are persisted (customer + items + status). No online card payment.
-- Product images: **Cloudinary** upload (or a pasted image URL) — no local disk, Vercel-safe.
-- Deployment: **Vercel** (needs env vars — see "Data & admin" below).
+- Database: **MongoDB Atlas** (Mongoose) — catalog + orders. Accessed only by the server.
+- Admin dashboard: custom **`/admin`** (static pages) that call the Express API with a
+  **JWT bearer token in localStorage**; auth guard is client-side (no middleware in export).
+  Lets the non-technical client manage products + orders in the browser.
+- Ordering: **cart → `POST {API}/api/orders` (prices recomputed server-side), then pre-filled
+  WhatsApp message**. Orders persisted (customer + items + status). No online card payment.
+- Product images: **Cloudinary** upload via `POST {API}/api/uploads` (or a pasted URL).
+- Deployment: **Hostinger (static frontend) + Render (Express API)** — see `DEPLOYMENT.md`.
 
 ### Data & admin
 
-- Shared types + static category list: `codebase/lib/products.ts` (client-safe, no DB imports).
-- Server-only DB access: `codebase/lib/data/products.ts`; connection in `codebase/lib/db.ts`.
-- Models: `codebase/models/{Product,Order,Admin}.ts`. API: `codebase/app/api/…`
-  (public `POST /api/orders`; protected `/api/admin/*`). Auth = single admin, JWT httpOnly
-  cookie (`jose`), enforced by `codebase/middleware.ts`. Public storefront lives under
-  `app/(site)/`; admin under `app/admin/` (noindex).
-- **Setup:** create `codebase/.env.local` from `.env.example`
-  (`MONGODB_URI`, `JWT_SECRET`, `ADMIN_EMAIL`/`ADMIN_PASSWORD`, optional `CLOUDINARY_*`),
-  then `npm run seed` to load the seed catalog + create the admin. DB accessors fail soft
-  (empty catalog) when no DB is configured, so dev/build never crash.
+- Shared types + static category list: `codebase/lib/products.ts` (client-safe).
+- Build-time catalog access: `codebase/lib/data/products.ts` reads `lib/catalog.data.json`
+  (no DB — client-safe). Admin HTTP client: `codebase/lib/adminApi.ts`.
+- **Server** (`codebase/server/`): models `src/models/{Product,Order,Admin}.js`; routes
+  `src/routes/{auth,products,orders,uploads}.js`; public `GET /api/products`, `POST /api/orders`;
+  protected (bearer) writes + `GET /api/orders`. `npm run seed` seeds catalog + admin.
+- Storefront under `app/(site)/`; admin under `app/admin/` (noindex).
+- **Frontend setup:** `codebase/.env.local` from `.env.example` (`NEXT_PUBLIC_SITE_URL`,
+  `NEXT_PUBLIC_WHATSAPP`, `NEXT_PUBLIC_API_URL`, `CONTENT_API_URL`).
+  **Server setup:** `codebase/server/.env` from `.env.example` (`MONGODB_URI`, `JWT_SECRET`,
+  `ADMIN_EMAIL`/`ADMIN_PASSWORD`, `CLOUDINARY_*`, `CORS_ORIGIN`).
+- Static export has **no API routes / middleware / ISR** — that logic now lives in the server.
 - **Don't wipe `.next` or run `npm run build` while a `next dev` server is running** — it
   corrupts the dev route manifest.
 

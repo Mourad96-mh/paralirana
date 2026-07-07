@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { adminApi, setToken } from "@/lib/adminApi";
 
 export default function LoginPage() {
   // useSearchParams must be inside a Suspense boundary or `next build` fails.
@@ -25,21 +26,12 @@ function LoginForm() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Connexion échouée");
-        return;
-      }
+      const data = await adminApi.login(email, password);
+      setToken(data.token);
       const from = params.get("from") || "/admin";
       router.replace(from);
-      router.refresh();
-    } catch {
-      setError("Erreur réseau");
+    } catch (err) {
+      setError((err as Error).message || "Connexion échouée");
     } finally {
       setLoading(false);
     }

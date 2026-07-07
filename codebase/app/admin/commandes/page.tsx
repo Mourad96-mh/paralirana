@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AdminShell from "@/components/admin/AdminShell";
+import { adminApi } from "@/lib/adminApi";
 import { formatMAD } from "@/lib/format";
 
 const STATUSES = ["nouvelle", "confirmée", "livrée", "annulée"] as const;
@@ -40,9 +41,8 @@ export default function OrdersAdmin() {
   async function load() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/orders");
-      const data = await res.json();
-      setOrders(data.orders || []);
+      const data = await adminApi.listOrders();
+      setOrders(data || []);
     } finally {
       setLoading(false);
     }
@@ -56,11 +56,7 @@ export default function OrdersAdmin() {
     setOrders((prev) =>
       prev.map((o) => (o._id === id ? { ...o, status } : o))
     );
-    await fetch(`/api/admin/orders/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
+    await adminApi.updateOrderStatus(id, status);
   }
 
   const shown =

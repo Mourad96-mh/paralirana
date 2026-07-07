@@ -7,7 +7,6 @@ import { getProductsByCategory } from "@/lib/data/products";
 import { SITE_URL } from "@/lib/format";
 import CategoryView from "@/components/CategoryView";
 
-export const revalidate = 3600;
 
 export function generateStaticParams() {
   return categories.map((c) => ({ category: c.slug }));

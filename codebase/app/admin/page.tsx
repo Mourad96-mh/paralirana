@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import AdminShell from "@/components/admin/AdminShell";
+import { adminApi } from "@/lib/adminApi";
 import { formatMAD } from "@/lib/format";
 
 type Stats = {
@@ -20,12 +21,10 @@ export default function AdminDashboard() {
   useEffect(() => {
     (async () => {
       try {
-        const [pRes, oRes] = await Promise.all([
-          fetch("/api/admin/products"),
-          fetch("/api/admin/orders"),
+        const [products = [], orders = []] = await Promise.all([
+          adminApi.listProducts(),
+          adminApi.listOrders(),
         ]);
-        const { products = [] } = await pRes.json();
-        const { orders = [] } = await oRes.json();
         setStats({
           products: products.length,
           outOfStock: products.filter((p: { inStock: boolean }) => !p.inStock)

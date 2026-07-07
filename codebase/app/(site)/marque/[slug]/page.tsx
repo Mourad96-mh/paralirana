@@ -11,7 +11,6 @@ import { SITE_URL, waLink } from "@/lib/format";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import ProductCard from "@/components/ProductCard";
 
-export const revalidate = 3600;
 
 export function generateStaticParams() {
   return featuredBrands.map((b) => ({ slug: b.slug }));

@@ -5,8 +5,9 @@ import { featuredBrands } from "@/lib/brands";
 import { SITE_URL } from "@/lib/format";
 
 // Plain Route Handler instead of the `sitemap.ts` metadata convention — the
-// metadata-route loader crashes on this project's folder path. Rebuilt hourly.
-export const revalidate = 3600;
+// metadata-route loader crashes on this project's folder path. Emitted as a
+// static /sitemap.xml file at build (output: export).
+export const dynamic = "force-static";
 
 type Entry = { path: string; priority: number };
 

@@ -40,9 +40,10 @@ export default function CartView() {
     }
     setSubmitting(true);
     const message = buildOrderMessage(items, total, name.trim(), city.trim());
+    const API = process.env.NEXT_PUBLIC_API_URL || "";
     try {
       // Persist the order first (best-effort — never block the sale on it).
-      await fetch("/api/orders", {
+      await fetch(`${API}/api/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

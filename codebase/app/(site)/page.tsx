@@ -6,8 +6,6 @@ import { getFeatured } from "@/lib/data/products";
 import { featuredBrands } from "@/lib/brands";
 import ProductCard from "@/components/ProductCard";
 
-// Rebuild static HTML at most hourly; admin edits also trigger on-demand revalidate.
-export const revalidate = 3600;
 
 // Money categories to spotlight (from research/keyword-analysis.md: "écran solaire"
 // and compléments are the breakout intents; capillaire is a strong money category).
