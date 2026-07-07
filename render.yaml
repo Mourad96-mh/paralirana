@@ -1,0 +1,40 @@
+# Render Blueprint for Para Lirana (Next.js 14 full-stack app).
+# The app lives in codebase/. Render runs it as a Node web service:
+# `npm run build` then `npm start` (next start listens on $PORT automatically).
+#
+# Secrets are marked `sync: false` — set their real values in the Render
+# dashboard (Environment tab), NOT in this file.
+services:
+  - type: web
+    name: paralirana
+    runtime: node
+    rootDir: codebase
+    # $7/mo, always awake (no cold starts). Change to `free` to test for free,
+    # but free sleeps after 15 min idle → ~50s first-load delay (bad for a shop).
+    plan: starter
+    region: frankfurt # closest to Morocco; options: oregon, ohio, virginia, singapore
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    autoDeploy: true # redeploy on every push to the connected branch
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://paralirana.com
+      # --- set these real values in the Render dashboard ---
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: NEXT_PUBLIC_WHATSAPP
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
