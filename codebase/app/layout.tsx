@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   description:
     "Parapharmacie en ligne au Maroc : soins visage, capillaire, solaire, bébé et compléments alimentaires des plus grandes marques. Prix discount, commande sur WhatsApp, livraison partout au Maroc.",
   robots: { index: true, follow: true },
+  // Google Search Console ownership verification for paralirana.com.
+  verification: { google: "PD6r_eHNWqu7JM7S_36PtbbKXcVLnmTuHnfxl8N4pr0" },
 };
 
 export default function RootLayout({
