@@ -3,7 +3,8 @@
 //
 // This file is CLIENT-SAFE: it must never import Mongoose or any server-only
 // code, because client components (Navbar, cart, ProductCard) import from here.
-// Product DATA now lives in MongoDB — see lib/data/products.ts (server-only).
+// Product DATA lives in the Express API / a build-time snapshot — see
+// lib/data/products.ts (reads lib/catalog.data.json, client-safe).
 // ---------------------------------------------------------------------------
 
 export type Subcategory = {
