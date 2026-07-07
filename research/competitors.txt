@@ -1,0 +1,1 @@
+# List competitor URLs here, one per line.

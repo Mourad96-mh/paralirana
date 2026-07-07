@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --font-display: var(--font-poppins), system-ui, sans-serif;
+}
+
+body {
+  background-color: #F6F2E7;
+  color: #1C1C1C;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}

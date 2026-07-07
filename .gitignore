@@ -1,0 +1,21 @@
+# Dependencies
+**/node_modules/
+
+# Next.js build output
+codebase/.next/
+codebase/out/
+codebase/build/
+codebase/next-env.d.ts
+codebase/tsconfig.tsbuildinfo
+
+# Secrets & env
+**/.env
+**/.env*.local
+*.pem
+
+# Vercel
+**/.vercel
+
+# OS / editor
+.DS_Store
+Thumbs.db
