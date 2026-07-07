@@ -3,9 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { cities, getCity } from "@/lib/cities";
 import { categories } from "@/lib/products";
-import { getFeatured } from "@/lib/data/products";
 import { SITE_URL, waLink } from "@/lib/format";
-import ProductCard from "@/components/ProductCard";
+import FeaturedProducts from "@/components/FeaturedProducts";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 
@@ -58,7 +57,6 @@ export default async function CityPage({
   const city = getCity(params.ville);
   if (!city) notFound();
 
-  const featured = await getFeatured(8);
   const faq = faqFor(city.name, city.deliveryDelay);
 
   const breadcrumbJsonLd = {
@@ -203,11 +201,7 @@ export default async function CityPage({
             Tout voir →
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {featured.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
+        <FeaturedProducts />
       </section>
 
       {/* Delivery / districts */}

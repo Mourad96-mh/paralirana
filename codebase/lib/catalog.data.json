@@ -1,5 +1,32 @@
 [
   {
+    "_id": "6a4d5e5a24b2b8c8018e51ef",
+    "slug": "test-product",
+    "name": "test product",
+    "brand": "vichi test",
+    "category": "visage",
+    "price": 120,
+    "oldPrice": 140,
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783455275/paralirana/products/dfd47bmzxphgnmrios2w.jpg",
+    "shortDescription": "test description",
+    "description": "test big description",
+    "conseils": "bla bla bla",
+    "composition": "1,2,3",
+    "features": [
+      "test",
+      "test",
+      "test"
+    ],
+    "rating": 4.9,
+    "reviews": 100,
+    "inStock": true,
+    "isBestseller": false,
+    "createdAt": "2026-07-07T20:15:22.230Z",
+    "updatedAt": "2026-07-07T20:17:49.194Z",
+    "__v": 0,
+    "isNew": false
+  },
+  {
     "_id": "6a482e2e9866cf07f81fbc14",
     "slug": "cattier-dentifrice-bio",
     "name": "Dentifrice Blancheur Bio 75ml",

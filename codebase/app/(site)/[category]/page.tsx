@@ -72,7 +72,11 @@ export default async function CategoryPage({
       </header>
 
       <Suspense fallback={null}>
-        <CategoryView products={items} subcategories={cat.subcategories} />
+        <CategoryView
+          categorySlug={cat.slug}
+          products={items}
+          subcategories={cat.subcategories}
+        />
       </Suspense>
     </div>
   );

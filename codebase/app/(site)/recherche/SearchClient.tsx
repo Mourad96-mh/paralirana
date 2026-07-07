@@ -1,15 +1,17 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { searchProducts } from "@/lib/data/products";
+import { searchIn } from "@/lib/data/products";
+import { useCatalog } from "@/lib/catalog";
 import ProductCard from "@/components/ProductCard";
 
-// Client-side search over the baked catalog. The search page is static (noindex),
+// Client-side search over the LIVE catalog. The search page is static (noindex),
 // so results are computed in the browser from the query string — no server needed.
 export default function SearchClient() {
   const params = useSearchParams();
+  const { products } = useCatalog();
   const q = (params.get("q") ?? "").trim();
-  const results = q ? searchProducts(q) : [];
+  const results = q ? searchIn(products, q) : [];
 
   return (
     <>

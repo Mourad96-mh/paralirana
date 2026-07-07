@@ -3,18 +3,27 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Product, Subcategory } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog";
 import ProductCard from "./ProductCard";
 
 type SortKey = "popular" | "price-asc" | "price-desc" | "new";
 
 export default function CategoryView({
-  products,
+  categorySlug,
+  products: initialProducts,
   subcategories = [],
 }: {
+  categorySlug: string;
   products: Product[];
   subcategories?: Subcategory[];
 }) {
   const searchParams = useSearchParams();
+
+  // Live catalog for this category once fetched; baked list until then (SSR-safe).
+  const { products: liveAll, ready } = useCatalog();
+  const products = ready
+    ? liveAll.filter((p) => p.category === categorySlug)
+    : initialProducts;
 
   const brands = useMemo(
     () => Array.from(new Set(products.map((p) => p.brand))).sort(),

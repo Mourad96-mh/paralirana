@@ -48,7 +48,29 @@ function toProduct(d: RawProduct): Product {
   };
 }
 
-const ALL: Product[] = (rawCatalog as RawProduct[]).map(toProduct);
+// Normalize an arbitrary catalog array (from the baked snapshot or a live API
+// response) into app-facing Product[]. Reused by the client CatalogProvider.
+export function normalizeCatalog(raw: unknown[]): Product[] {
+  return (raw as RawProduct[]).map(toProduct);
+}
+
+const ALL: Product[] = normalizeCatalog(rawCatalog as unknown[]);
+
+// Accent- + case-insensitive token search over any product list (client reuses this).
+const normalizeText = (s: string) =>
+  (s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+
+export function searchIn(list: Product[], query: string): Product[] {
+  const tokens = normalizeText(query).split(/\s+/).filter(Boolean);
+  if (!tokens.length) return [];
+  return list.filter((p) => {
+    const haystack = normalizeText(`${p.name} ${p.brand} ${p.shortDescription}`);
+    return tokens.every((t) => haystack.includes(t));
+  });
+}
 
 export function getProducts(): Promise<Product[]> {
   return Promise.resolve(ALL);
@@ -68,20 +90,9 @@ export function getProductsByBrand(name: string): Promise<Product[]> {
   return Promise.resolve(ALL.filter((p) => p.brand.toLowerCase() === n));
 }
 
-// Accent- + case-insensitive search over name + brand + shortDescription.
-const normalize = (s: string) =>
-  (s || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "");
-
+// Accent- + case-insensitive search over the baked catalog.
 export function searchProducts(query: string): Product[] {
-  const tokens = normalize(query).split(/\s+/).filter(Boolean);
-  if (!tokens.length) return [];
-  return ALL.filter((p) => {
-    const haystack = normalize(`${p.name} ${p.brand} ${p.shortDescription}`);
-    return tokens.every((t) => haystack.includes(t));
-  });
+  return searchIn(ALL, query);
 }
 
 export function getFeatured(limit = 8): Promise<Product[]> {

@@ -1,0 +1,24 @@
+# Para Lirana — static export on Hostinger (Apache/LiteSpeed).
+
+# Serve the Next.js export 404 page for unknown routes. This lets the client-side
+# fallback render products added after the last build (/produit/<slug>), and shows
+# a normal 404 for everything else.
+ErrorDocument 404 /404.html
+
+# Force HTTPS (paralirana.com has SSL).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Long-cache the immutable Next.js build assets.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/avif "access plus 1 month"
+</IfModule>

@@ -2,9 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { categories, getCategory } from "@/lib/products";
-import { getFeatured } from "@/lib/data/products";
 import { featuredBrands } from "@/lib/brands";
-import ProductCard from "@/components/ProductCard";
+import FeaturedProducts from "@/components/FeaturedProducts";
 
 
 // Money categories to spotlight (from research/keyword-analysis.md: "écran solaire"
@@ -60,9 +59,7 @@ const faqJsonLd = {
   })),
 };
 
-export default async function HomePage() {
-  const featured = await getFeatured(8);
-
+export default function HomePage() {
   return (
     <>
       <script
@@ -220,27 +217,21 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Featured products (shows once the catalog is seeded) */}
-      {featured.length > 0 && (
-        <section className="container pb-4">
-          <div className="mb-6 flex items-end justify-between">
-            <h2 className="font-display text-2xl font-bold text-green">
-              Sélection du moment
-            </h2>
-            <Link
-              href="/visage"
-              className="text-sm font-medium text-gold-dark hover:underline"
-            >
-              Tout voir →
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {featured.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Featured products — live from the API (bestsellers + new arrivals) */}
+      <section className="container pb-4">
+        <div className="mb-6 flex items-end justify-between">
+          <h2 className="font-display text-2xl font-bold text-green">
+            Sélection du moment
+          </h2>
+          <Link
+            href="/visage"
+            className="text-sm font-medium text-gold-dark hover:underline"
+          >
+            Tout voir →
+          </Link>
+        </div>
+        <FeaturedProducts />
+      </section>
 
       {/* Why Para Lirana */}
       <section className="bg-white">

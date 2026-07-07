@@ -7,9 +7,8 @@ import {
   getBrandContent,
 } from "@/lib/brands";
 import { getProductsByBrand } from "@/lib/data/products";
-import { SITE_URL, waLink } from "@/lib/format";
-import WhatsAppIcon from "@/components/WhatsAppIcon";
-import ProductCard from "@/components/ProductCard";
+import { SITE_URL } from "@/lib/format";
+import BrandProducts from "@/components/BrandProducts";
 
 
 export function generateStaticParams() {
@@ -120,29 +119,7 @@ export default async function BrandPage({
         <h2 className="mb-4 font-display text-2xl font-bold text-green">
           Produits {brand.name}
         </h2>
-        {products.length > 0 ? (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-black/5 bg-cream p-8 text-center">
-            <p className="text-ink/70">
-              Le catalogue {brand.name} arrive très bientôt sur Para Lirana.
-              Dites-nous le produit que vous cherchez et nous vous l&apos;obtenons.
-            </p>
-            <a
-              href={waLink(
-                `Bonjour Para Lirana 🙂 Je cherche un produit ${brand.name}.`
-              )}
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-green px-5 py-3 font-semibold text-white transition hover:bg-green-dark"
-            >
-              <WhatsAppIcon className="h-5 w-5" />
-              Demander un produit {brand.name} sur WhatsApp
-            </a>
-          </div>
-        )}
+        <BrandProducts brandName={brand.name} />
       </section>
 
       {/* Buying guide */}
