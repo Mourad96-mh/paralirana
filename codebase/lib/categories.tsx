@@ -11,7 +11,13 @@
 // next build + upload — like a brand-new product URL. Until then it appears in
 // the live menu/dropdown but its dedicated page is created on the next deploy.
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import type { Category } from "@/lib/products";
 import { categories as BAKED, normalizeCategories } from "@/lib/products";
 
@@ -66,9 +72,19 @@ export function useCategories(): CategoriesCtx {
 // Standalone hook (no provider needed) — used by admin pages, which live outside
 // the storefront's CategoriesProvider. Seeds from the baked snapshot, then
 // refreshes from the API on mount so freshly-created categories are selectable.
-export function useLiveCategories(): CategoriesCtx {
+// `reload()` re-fetches on demand (e.g. after creating a category inline).
+export function useLiveCategories(): CategoriesCtx & { reload: () => void } {
   const [categories, setCategories] = useState<Category[]>(BAKED);
   const [ready, setReady] = useState(false);
+
+  const reload = useCallback(() => {
+    fetchLive().then((live) => {
+      if (live) {
+        setCategories(live);
+        setReady(true);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -83,5 +99,5 @@ export function useLiveCategories(): CategoriesCtx {
     };
   }, []);
 
-  return { categories, ready };
+  return { categories, ready, reload };
 }

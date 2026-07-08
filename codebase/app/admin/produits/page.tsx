@@ -7,6 +7,10 @@ import type { Category } from "@/lib/products";
 import { categories } from "@/lib/products";
 import { useLiveCategories } from "@/lib/categories";
 import { formatMAD } from "@/lib/format";
+import { slugify } from "@/lib/slug";
+
+// Valeur sentinelle du menu déroulant catégorie : « saisir une nouvelle catégorie ».
+const NEW_CATEGORY = "__new__";
 
 type AdminProduct = {
   _id: string;
@@ -33,6 +37,7 @@ type FormState = {
   name: string;
   brand: string;
   category: string;
+  newCategory: string; // nom saisi quand category === NEW_CATEGORY
   price: string;
   oldPrice: string;
   image: string;
@@ -52,6 +57,7 @@ const empty: FormState = {
   name: "",
   brand: "",
   category: categories[0].slug,
+  newCategory: "",
   price: "",
   oldPrice: "",
   image: "",
@@ -72,6 +78,7 @@ function toForm(p: AdminProduct): FormState {
     name: p.name,
     brand: p.brand,
     category: p.category,
+    newCategory: "",
     price: String(p.price ?? ""),
     oldPrice: p.oldPrice != null ? String(p.oldPrice) : "",
     image: p.image ?? "",
@@ -113,7 +120,8 @@ function toPayload(f: FormState) {
 }
 
 export default function ProductsAdmin() {
-  const { categories: liveCategories } = useLiveCategories();
+  const { categories: liveCategories, reload: reloadCategories } =
+    useLiveCategories();
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null); // null = closed, "new" = create
@@ -170,12 +178,43 @@ export default function ProductsAdmin() {
       setError("Nom, marque et prix sont requis.");
       return;
     }
+
+    // Résoudre la catégorie : soit une existante, soit une nouvelle saisie ici.
+    let categorySlug = form.category;
+    if (form.category === NEW_CATEGORY) {
+      const newName = form.newCategory.trim();
+      if (!newName) {
+        setError("Entrez le nom de la nouvelle catégorie.");
+        return;
+      }
+      categorySlug = slugify(newName);
+      if (!categorySlug) {
+        setError("Nom de catégorie invalide.");
+        return;
+      }
+      setSaving(true);
+      try {
+        await adminApi.createCategory({ name: newName });
+        reloadCategories(); // la nouvelle catégorie apparaît dans la liste
+      } catch (err) {
+        // 409 = la catégorie existe déjà → on la réutilise simplement.
+        if ((err as Error & { status?: number }).status !== 409) {
+          setSaving(false);
+          setError(
+            (err as Error).message || "Échec de la création de la catégorie"
+          );
+          return;
+        }
+      }
+    }
+
     setSaving(true);
     try {
+      const payload = { ...toPayload(form), category: categorySlug };
       if (editingId === "new") {
-        await adminApi.createProduct(toPayload(form));
+        await adminApi.createProduct(payload);
       } else {
-        await adminApi.updateProduct(editingId!, toPayload(form));
+        await adminApi.updateProduct(editingId!, payload);
       }
       close();
       await load();
@@ -421,7 +460,17 @@ function ProductForm({
                     {c.name}
                   </option>
                 ))}
+                <option value={NEW_CATEGORY}>➕ Nouvelle catégorie…</option>
               </select>
+              {form.category === NEW_CATEGORY && (
+                <input
+                  value={form.newCategory}
+                  onChange={set("newCategory")}
+                  className={`${input} mt-2`}
+                  placeholder="Nom de la nouvelle catégorie"
+                  autoFocus
+                />
+              )}
             </div>
           </div>
 
