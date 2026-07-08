@@ -35,7 +35,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={poppins.variable}>
-      <body className="min-h-screen font-sans antialiased">{children}</body>
+      {/* suppressHydrationWarning: some browser extensions (e.g. ColorZilla adds
+          `cz-shortcut-listen`) inject attributes on <body> before hydration,
+          which React would otherwise flag as a mismatch. */}
+      <body
+        className="min-h-screen font-sans antialiased"
+        suppressHydrationWarning
+      >
+        {children}
+      </body>
     </html>
   );
 }

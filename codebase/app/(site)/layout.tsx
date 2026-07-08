@@ -1,5 +1,6 @@
 import { CartProvider } from "@/lib/cart";
 import { CatalogProvider } from "@/lib/catalog";
+import { CategoriesProvider } from "@/lib/categories";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -40,17 +41,19 @@ export default function SiteLayout({
   children: React.ReactNode;
 }) {
   return (
-    <CatalogProvider>
-      <CartProvider>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
-        />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppFloat />
-      </CartProvider>
-    </CatalogProvider>
+    <CategoriesProvider>
+      <CatalogProvider>
+        <CartProvider>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+          />
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+          <WhatsAppFloat />
+        </CartProvider>
+      </CatalogProvider>
+    </CategoriesProvider>
   );
 }

@@ -66,6 +66,12 @@ export const adminApi = {
     request(`/api/products/${id}`, { method: "PUT", body: b, auth: true }),
   deleteProduct: (id: string) => request(`/api/products/${id}`, { method: "DELETE", auth: true }),
 
+  listCategories: () => request("/api/categories"),
+  createCategory: (b: unknown) => request("/api/categories", { method: "POST", body: b, auth: true }),
+  updateCategory: (id: string, b: unknown) =>
+    request(`/api/categories/${id}`, { method: "PUT", body: b, auth: true }),
+  deleteCategory: (id: string) => request(`/api/categories/${id}`, { method: "DELETE", auth: true }),
+
   listOrders: () => request("/api/orders", { auth: true }),
   updateOrderStatus: (id: string, status: string) =>
     request(`/api/orders/${id}`, { method: "PATCH", body: { status }, auth: true }),

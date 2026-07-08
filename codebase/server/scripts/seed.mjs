@@ -4,8 +4,10 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import Product, { toDbProduct } from '../src/models/Product.js';
+import Category from '../src/models/Category.js';
 import Admin from '../src/models/Admin.js';
 import { seedProducts } from './seed-data.mjs';
+import { seedCategories } from './seed-categories.mjs';
 
 async function main() {
   const uri = process.env.MONGODB_URI;
@@ -16,6 +18,20 @@ async function main() {
 
   await mongoose.connect(uri);
   console.log('✓ Connecté à MongoDB');
+
+  let catCreated = 0;
+  let catUpdated = 0;
+  for (const c of seedCategories) {
+    const existing = await Category.findOne({ slug: c.slug });
+    if (existing) {
+      await Category.updateOne({ slug: c.slug }, c);
+      catUpdated++;
+    } else {
+      await Category.create(c);
+      catCreated++;
+    }
+  }
+  console.log(`✓ Catégories : ${catCreated} créées, ${catUpdated} mises à jour`);
 
   let created = 0;
   let updated = 0;

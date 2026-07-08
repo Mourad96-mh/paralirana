@@ -8,6 +8,7 @@ import { clearToken, isAuthed } from "@/lib/adminApi";
 const NAV = [
   { href: "/admin", label: "Tableau de bord", icon: "📊" },
   { href: "/admin/produits", label: "Produits", icon: "🧴" },
+  { href: "/admin/categories", label: "Catégories", icon: "🗂️" },
   { href: "/admin/commandes", label: "Commandes", icon: "🧾" },
 ];
 

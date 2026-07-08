@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { categories } from "@/lib/products";
+import { useCategories } from "@/lib/categories";
 import { useCart } from "@/lib/cart";
 
 export default function Navbar() {
   const { count } = useCart();
+  const { categories } = useCategories();
   const router = useRouter();
   const [open, setOpen] = useState(false); // mobile menu
   const [megaOpen, setMegaOpen] = useState(false); // desktop mega-menu
@@ -85,13 +86,38 @@ export default function Navbar() {
           <button
             onClick={() => setOpen((v) => !v)}
             className="rounded-lg bg-white px-3 py-2 text-sm shadow-sm lg:hidden"
-            aria-label="Menu"
+            aria-label={open ? "Fermer le menu" : "Menu"}
             aria-expanded={open}
           >
-            ☰
+            {open ? "✕" : "☰"}
           </button>
         </div>
       </div>
+
+      {/* Search (mobile) — always visible at the top, not hidden in the burger */}
+      <form
+        onSubmit={submitSearch}
+        role="search"
+        className="container pb-3 md:hidden"
+      >
+        <div className="relative">
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Rechercher un produit, une marque…"
+            aria-label="Rechercher"
+            className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-4 pr-11 text-sm outline-none focus:border-gold"
+          />
+          <button
+            type="submit"
+            aria-label="Lancer la recherche"
+            className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-green p-2 text-white transition hover:bg-green-dark"
+          >
+            <SearchIcon />
+          </button>
+        </div>
+      </form>
 
       {/* Row 2: category nav + mega-menu (desktop) */}
       <div className="hidden border-t border-black/5 bg-white lg:block">
@@ -158,26 +184,6 @@ export default function Navbar() {
       {open && (
         <div className="border-t border-black/5 bg-white lg:hidden">
           <div className="container py-3">
-            <form onSubmit={submitSearch} role="search" className="mb-3">
-              <div className="relative">
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Rechercher un produit, une marque…"
-                  aria-label="Rechercher"
-                  className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-4 pr-11 text-sm outline-none focus:border-gold"
-                />
-                <button
-                  type="submit"
-                  aria-label="Lancer la recherche"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-green p-2 text-white"
-                >
-                  <SearchIcon />
-                </button>
-              </div>
-            </form>
-
             <div className="divide-y divide-black/5">
               {categories.map((c) => (
                 <details key={c.slug} className="py-1">

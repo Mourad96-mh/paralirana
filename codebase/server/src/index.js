@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
+import categoryRoutes from './routes/categories.js';
 import orderRoutes from './routes/orders.js';
 import uploadRoutes from './routes/uploads.js';
 
@@ -20,6 +21,7 @@ app.use(cors({ origin: origins.length ? origins : true }));
 app.get('/', (req, res) => res.json({ ok: true, service: 'paralirana-api' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/uploads', uploadRoutes);
 

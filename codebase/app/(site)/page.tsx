@@ -4,6 +4,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { categories, getCategory } from "@/lib/products";
 import { featuredBrands } from "@/lib/brands";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import HeroCarousel from "@/components/HeroCarousel";
 
 
 // Money categories to spotlight (from research/keyword-analysis.md: "écran solaire"
@@ -68,14 +69,19 @@ export default function HomePage() {
       />
 
       {/* Hero */}
-      <section
-        className="relative bg-green bg-cover bg-right text-white"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(18,32,9,0.94) 0%, rgba(30,52,17,0.86) 34%, rgba(43,74,17,0.55) 62%, rgba(43,74,17,0.20) 100%), url('/hero.jpg')",
-        }}
-      >
-        <div className="container py-20 lg:py-28">
+      <section className="relative overflow-hidden bg-green text-white">
+        {/* Rotating product-image backdrop (live catalog) */}
+        <HeroCarousel />
+        {/* Dark gradient overlay for text legibility */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(18,32,9,0.94) 0%, rgba(30,52,17,0.86) 34%, rgba(43,74,17,0.55) 62%, rgba(43,74,17,0.20) 100%)",
+          }}
+          aria-hidden
+        />
+        <div className="container relative py-20 lg:py-28">
           <div className="max-w-xl">
             <p className="mb-3 inline-block rounded-full bg-gold/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-light">
               Parapharmacie en ligne · Maroc

@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import AdminShell from "@/components/admin/AdminShell";
 import { adminApi } from "@/lib/adminApi";
+import type { Category } from "@/lib/products";
 import { categories } from "@/lib/products";
+import { useLiveCategories } from "@/lib/categories";
 import { formatMAD } from "@/lib/format";
 
 type AdminProduct = {
@@ -111,6 +113,7 @@ function toPayload(f: FormState) {
 }
 
 export default function ProductsAdmin() {
+  const { categories: liveCategories } = useLiveCategories();
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null); // null = closed, "new" = create
@@ -269,7 +272,7 @@ export default function ProductsAdmin() {
                     </div>
                   </td>
                   <td className="px-4 py-3 text-muted">
-                    {categories.find((c) => c.slug === p.category)?.name ||
+                    {liveCategories.find((c) => c.slug === p.category)?.name ||
                       p.category}
                   </td>
                   <td className="px-4 py-3">
@@ -326,6 +329,7 @@ export default function ProductsAdmin() {
           isNew={editingId === "new"}
           form={form}
           setForm={setForm}
+          categories={liveCategories}
           saving={saving}
           uploading={uploading}
           error={error}
@@ -342,6 +346,7 @@ function ProductForm({
   isNew,
   form,
   setForm,
+  categories,
   saving,
   uploading,
   error,
@@ -352,6 +357,7 @@ function ProductForm({
   isNew: boolean;
   form: FormState;
   setForm: React.Dispatch<React.SetStateAction<FormState>>;
+  categories: Category[];
   saving: boolean;
   uploading: boolean;
   error: string;
