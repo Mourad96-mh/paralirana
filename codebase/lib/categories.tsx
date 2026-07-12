@@ -77,9 +77,11 @@ export function useLiveCategories(): CategoriesCtx & { reload: () => void } {
   const [categories, setCategories] = useState<Category[]>(BAKED);
   const [ready, setReady] = useState(false);
 
+  // Only replace the baked fallback when the API returns a non-empty list, so an
+  // empty/unseeded catalog never wipes the categories out of the form dropdown.
   const reload = useCallback(() => {
     fetchLive().then((live) => {
-      if (live) {
+      if (live && live.length) {
         setCategories(live);
         setReady(true);
       }
@@ -89,7 +91,7 @@ export function useLiveCategories(): CategoriesCtx & { reload: () => void } {
   useEffect(() => {
     let alive = true;
     fetchLive().then((live) => {
-      if (alive && live) {
+      if (alive && live && live.length) {
         setCategories(live);
         setReady(true);
       }

@@ -1,103 +1,198 @@
 [
   {
+    "_id": "6a4e95b432ff40d9803d1fa9",
     "slug": "visage",
     "name": "Visage",
     "tagline": "Soins du visage, nettoyants et anti-âge",
     "icon": "🧴",
     "image": "/products/cerave-creme-hydratante-visage.png",
-    "order": 1,
     "subcategories": [
-      { "slug": "nettoyants", "name": "Nettoyants & Démaquillants" },
-      { "slug": "hydratants", "name": "Hydratants" },
-      { "slug": "serums", "name": "Sérums & Traitements" },
-      { "slug": "anti-age", "name": "Anti-âge" }
-    ]
+      {
+        "slug": "nettoyants",
+        "name": "Nettoyants & Démaquillants"
+      },
+      {
+        "slug": "hydratants",
+        "name": "Hydratants"
+      },
+      {
+        "slug": "serums",
+        "name": "Sérums & Traitements"
+      },
+      {
+        "slug": "anti-age",
+        "name": "Anti-âge"
+      }
+    ],
+    "order": 1,
+    "createdAt": "2026-07-08T18:23:48.943Z",
+    "updatedAt": "2026-07-08T18:23:48.943Z",
+    "__v": 0
   },
   {
+    "_id": "6a4e95b532ff40d9803d1fac",
     "slug": "corps",
     "name": "Corps",
     "tagline": "Hydratation et soins du corps",
     "icon": "🫧",
     "image": "/products/avene-cold-cream-corps.png",
-    "order": 2,
     "subcategories": [
-      { "slug": "hydratants-corps", "name": "Laits & Crèmes corps" },
-      { "slug": "nettoyants-corps", "name": "Gels & Baumes lavants" }
-    ]
+      {
+        "slug": "hydratants-corps",
+        "name": "Laits & Crèmes corps"
+      },
+      {
+        "slug": "nettoyants-corps",
+        "name": "Gels & Baumes lavants"
+      }
+    ],
+    "order": 2,
+    "createdAt": "2026-07-08T18:23:49.056Z",
+    "updatedAt": "2026-07-08T18:23:49.056Z",
+    "__v": 0
   },
   {
+    "_id": "6a4e95b532ff40d9803d1faf",
     "slug": "capillaire",
     "name": "Capillaire",
     "tagline": "Shampoings, soins et accessoires cheveux",
     "icon": "💇‍♀️",
     "image": "/products/klorane-shampoing-ortie.png",
-    "order": 3,
     "subcategories": [
-      { "slug": "shampoings", "name": "Shampoings" },
-      { "slug": "soins-cheveux", "name": "Soins & Après-shampoings" },
-      { "slug": "complements-cheveux", "name": "Compléments cheveux" }
-    ]
+      {
+        "slug": "shampoings",
+        "name": "Shampoings"
+      },
+      {
+        "slug": "soins-cheveux",
+        "name": "Soins & Après-shampoings"
+      },
+      {
+        "slug": "complements-cheveux",
+        "name": "Compléments cheveux"
+      }
+    ],
+    "order": 3,
+    "createdAt": "2026-07-08T18:23:49.155Z",
+    "updatedAt": "2026-07-08T18:23:49.155Z",
+    "__v": 0
   },
   {
+    "_id": "6a4e95b532ff40d9803d1fb2",
     "slug": "solaire",
     "name": "Solaire",
     "tagline": "Protection solaire visage et corps",
     "icon": "☀️",
     "image": "/products/la-roche-posay-anthelios-spf50.png",
-    "order": 4,
     "subcategories": [
-      { "slug": "solaire-visage", "name": "Solaire visage" },
-      { "slug": "solaire-corps", "name": "Solaire corps" }
-    ]
+      {
+        "slug": "solaire-visage",
+        "name": "Solaire visage"
+      },
+      {
+        "slug": "solaire-corps",
+        "name": "Solaire corps"
+      }
+    ],
+    "order": 4,
+    "createdAt": "2026-07-08T18:23:49.254Z",
+    "updatedAt": "2026-07-08T18:23:49.254Z",
+    "__v": 0
   },
   {
+    "_id": "6a4e95b532ff40d9803d1fb5",
     "slug": "maquillage",
     "name": "Maquillage",
     "tagline": "Teint, yeux et lèvres",
     "icon": "💄",
     "image": "/products/vichy-dermablend-fond-de-teint.png",
-    "order": 5,
     "subcategories": [
-      { "slug": "teint", "name": "Teint" },
-      { "slug": "yeux", "name": "Yeux" },
-      { "slug": "levres", "name": "Lèvres" }
-    ]
+      {
+        "slug": "teint",
+        "name": "Teint"
+      },
+      {
+        "slug": "yeux",
+        "name": "Yeux"
+      },
+      {
+        "slug": "levres",
+        "name": "Lèvres"
+      }
+    ],
+    "order": 5,
+    "createdAt": "2026-07-08T18:23:49.347Z",
+    "updatedAt": "2026-07-08T18:23:49.347Z",
+    "__v": 0
   },
   {
+    "_id": "6a4e95b532ff40d9803d1fb8",
     "slug": "bebe-maman",
     "name": "Bébé & Maman",
     "tagline": "Soins doux pour bébé et maman",
     "icon": "🍼",
     "image": "/products/mustela-liniment-bebe.png",
-    "order": 6,
     "subcategories": [
-      { "slug": "bebe", "name": "Soins bébé" },
-      { "slug": "maman", "name": "Maternité" }
-    ]
+      {
+        "slug": "bebe",
+        "name": "Soins bébé"
+      },
+      {
+        "slug": "maman",
+        "name": "Maternité"
+      }
+    ],
+    "order": 6,
+    "createdAt": "2026-07-08T18:23:49.449Z",
+    "updatedAt": "2026-07-08T18:23:49.449Z",
+    "__v": 0
   },
   {
+    "_id": "6a4e95b532ff40d9803d1fbb",
     "slug": "complements-alimentaires",
     "name": "Compléments Alimentaires",
     "tagline": "Vitamines, cheveux, minceur, immunité",
     "icon": "💊",
     "image": "/products/biocyte-collagene-marin.png",
-    "order": 7,
     "subcategories": [
-      { "slug": "beaute", "name": "Beauté (peau, cheveux, ongles)" },
-      { "slug": "vitalite", "name": "Vitalité & Immunité" },
-      { "slug": "minceur", "name": "Minceur" }
-    ]
+      {
+        "slug": "beaute",
+        "name": "Beauté (peau, cheveux, ongles)"
+      },
+      {
+        "slug": "vitalite",
+        "name": "Vitalité & Immunité"
+      },
+      {
+        "slug": "minceur",
+        "name": "Minceur"
+      }
+    ],
+    "order": 7,
+    "createdAt": "2026-07-08T18:23:49.548Z",
+    "updatedAt": "2026-07-08T18:23:49.548Z",
+    "__v": 0
   },
   {
+    "_id": "6a4e95b532ff40d9803d1fbe",
     "slug": "hygiene",
     "name": "Hygiène",
     "tagline": "Hygiène quotidienne et intime",
     "icon": "🧼",
     "image": "/products/cattier-dentifrice-bio.png",
-    "order": 8,
     "subcategories": [
-      { "slug": "intime", "name": "Hygiène intime" },
-      { "slug": "bucco-dentaire", "name": "Bucco-dentaire" }
-    ]
+      {
+        "slug": "intime",
+        "name": "Hygiène intime"
+      },
+      {
+        "slug": "bucco-dentaire",
+        "name": "Bucco-dentaire"
+      }
+    ],
+    "order": 8,
+    "createdAt": "2026-07-08T18:23:49.719Z",
+    "updatedAt": "2026-07-08T18:23:49.719Z",
+    "__v": 0
   }
 ]

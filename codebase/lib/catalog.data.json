@@ -1,32 +1,5 @@
 [
   {
-    "_id": "6a4d5e5a24b2b8c8018e51ef",
-    "slug": "test-product",
-    "name": "test product",
-    "brand": "vichi test",
-    "category": "visage",
-    "price": 120,
-    "oldPrice": 140,
-    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783455275/paralirana/products/dfd47bmzxphgnmrios2w.jpg",
-    "shortDescription": "test description",
-    "description": "test big description",
-    "conseils": "bla bla bla",
-    "composition": "1,2,3",
-    "features": [
-      "test",
-      "test",
-      "test"
-    ],
-    "rating": 4.9,
-    "reviews": 100,
-    "inStock": true,
-    "isBestseller": false,
-    "createdAt": "2026-07-07T20:15:22.230Z",
-    "updatedAt": "2026-07-07T20:17:49.194Z",
-    "__v": 0,
-    "isNew": false
-  },
-  {
     "_id": "6a482e2e9866cf07f81fbc14",
     "slug": "cattier-dentifrice-bio",
     "name": "Dentifrice Blancheur Bio 75ml",
@@ -57,7 +30,7 @@
   },
   {
     "_id": "6a482e2e9866cf07f81fbc11",
-    "slug": "saforelle-soin-lavant-doux",
+    "slug": "soin-lavant-doux-hygiene-intime-250ml",
     "name": "Soin Lavant Doux Hygiène Intime 250ml",
     "brand": "Saforelle",
     "category": "hygiene",
@@ -71,16 +44,17 @@
       "250 ml"
     ],
     "rating": 4.7,
-    "reviews": 87,
+    "reviews": 11,
     "inStock": true,
-    "isBestseller": false,
+    "isBestseller": true,
     "createdAt": "2026-07-03T21:48:30.101Z",
-    "updatedAt": "2026-07-04T10:52:10.702Z",
+    "updatedAt": "2026-07-07T21:47:28.096Z",
     "__v": 0,
     "image": "/products/saforelle-soin-lavant-doux.png",
     "subcategory": "intime",
     "composition": "Extrait de bardane apaisant et base lavante douce sans savon. Sans paraben ni colorant. Testé sous contrôle gynécologique.",
     "conseils": "Utiliser comme un savon liquide pour la toilette intime et corporelle : faire mousser puis rincer à l'eau claire. Usage externe, quotidien.",
+    "oldPrice": 120,
     "isNew": false
   },
   {
