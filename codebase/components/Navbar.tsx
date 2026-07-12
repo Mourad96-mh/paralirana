@@ -1,26 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCategories } from "@/lib/categories";
 import { useCart } from "@/lib/cart";
+import SearchBox from "@/components/SearchBox";
 
 export default function Navbar() {
   const { count } = useCart();
   const { categories } = useCategories();
-  const router = useRouter();
   const [open, setOpen] = useState(false); // mobile menu
   const [megaOpen, setMegaOpen] = useState(false); // desktop mega-menu
-  const [query, setQuery] = useState("");
-
-  function submitSearch(e: React.FormEvent) {
-    e.preventDefault();
-    const q = query.trim();
-    if (!q) return;
-    setOpen(false);
-    router.push(`/recherche?q=${encodeURIComponent(q)}`);
-  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-black/5 bg-cream/95 backdrop-blur">
@@ -45,30 +35,10 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Search (desktop) */}
-        <form
-          onSubmit={submitSearch}
-          className="hidden flex-1 items-center md:flex md:max-w-xl"
-          role="search"
-        >
-          <div className="relative w-full">
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Rechercher un produit, une marque…"
-              aria-label="Rechercher"
-              className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-4 pr-11 text-sm outline-none focus:border-gold"
-            />
-            <button
-              type="submit"
-              aria-label="Lancer la recherche"
-              className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-green p-2 text-white transition hover:bg-green-dark"
-            >
-              <SearchIcon />
-            </button>
-          </div>
-        </form>
+        {/* Search (desktop) — suggestions instantanées façon FiboSearch */}
+        <div className="hidden flex-1 items-center md:flex md:max-w-xl">
+          <SearchBox id="search-desktop" />
+        </div>
 
         <div className="flex shrink-0 items-center gap-2">
           <Link
@@ -95,29 +65,9 @@ export default function Navbar() {
       </div>
 
       {/* Search (mobile) — always visible at the top, not hidden in the burger */}
-      <form
-        onSubmit={submitSearch}
-        role="search"
-        className="container pb-3 md:hidden"
-      >
-        <div className="relative">
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher un produit, une marque…"
-            aria-label="Rechercher"
-            className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-4 pr-11 text-sm outline-none focus:border-gold"
-          />
-          <button
-            type="submit"
-            aria-label="Lancer la recherche"
-            className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-green p-2 text-white transition hover:bg-green-dark"
-          >
-            <SearchIcon />
-          </button>
-        </div>
-      </form>
+      <div className="container pb-3 md:hidden">
+        <SearchBox id="search-mobile" />
+      </div>
 
       {/* Row 2: category nav + mega-menu (desktop) */}
       <div className="hidden border-t border-black/5 bg-white lg:block">
@@ -217,26 +167,6 @@ export default function Navbar() {
         </div>
       )}
     </header>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
   );
 }
 
