@@ -9,13 +9,21 @@ type AdminBanner = {
   image: string;
   imageMobile?: string;
   link?: string;
+  tag?: string;
   title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  showCta?: boolean;
   order?: number;
   active?: boolean;
 };
 
 type FormState = {
+  tag: string;
   title: string;
+  subtitle: string;
+  ctaText: string;
+  showCta: boolean;
   link: string;
   image: string;
   imageMobile: string;
@@ -24,7 +32,11 @@ type FormState = {
 };
 
 const empty: FormState = {
+  tag: "",
   title: "",
+  subtitle: "",
+  ctaText: "",
+  showCta: true,
   link: "",
   image: "",
   imageMobile: "",
@@ -34,7 +46,11 @@ const empty: FormState = {
 
 function toForm(b: AdminBanner): FormState {
   return {
+    tag: b.tag ?? "",
     title: b.title ?? "",
+    subtitle: b.subtitle ?? "",
+    ctaText: b.ctaText ?? "",
+    showCta: b.showCta !== false,
     link: b.link ?? "",
     image: b.image ?? "",
     imageMobile: b.imageMobile ?? "",
@@ -45,7 +61,11 @@ function toForm(b: AdminBanner): FormState {
 
 function toPayload(f: FormState) {
   return {
+    tag: f.tag.trim(),
     title: f.title.trim(),
+    subtitle: f.subtitle.trim(),
+    ctaText: f.ctaText.trim(),
+    showCta: f.showCta,
     link: f.link.trim() || "/",
     image: f.image.trim(),
     imageMobile: f.imageMobile.trim(),
@@ -135,10 +155,11 @@ export default function BannersAdmin() {
     <AdminShell title="Bannières">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <p className="max-w-2xl text-sm text-muted">
-          Gérez le carrousel de la page d&apos;accueil. Image large ~1600×520 px
-          (desktop) et carrée ~800×800 px (mobile, optionnelle). Les bannières
-          actives apparaissent aussitôt sur le site ; le HTML statique est
-          re-baké au prochain déploiement.
+          Gérez les diapositives du hero d&apos;accueil. L&apos;image sert de
+          fond (~1600×600 px desktop, carrée ~800×800 px mobile optionnelle) —
+          le texte est superposé par le site, inutile de l&apos;écrire dans
+          l&apos;image. Les bannières actives apparaissent aussitôt sur le
+          site ; le HTML statique est re-baké au prochain déploiement.
         </p>
         <button
           onClick={openNew}
@@ -270,8 +291,8 @@ function BannerForm({
   onClose: () => void;
 }) {
   const set =
-    (k: "title" | "link" | "image" | "imageMobile" | "order") =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (k: "tag" | "title" | "subtitle" | "ctaText" | "link" | "image" | "imageMobile" | "order") =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setForm((f) => ({ ...f, [k]: e.target.value }));
     };
 
@@ -352,17 +373,40 @@ function BannerForm({
         <form onSubmit={onSave} className="space-y-3">
           <div>
             <label className="mb-1 block text-sm font-medium text-green">
-              Titre / texte alternatif
+              Accroche (tag)
             </label>
+            <input
+              value={form.tag}
+              onChange={set("tag")}
+              className={input}
+              placeholder="Offre de l'été"
+            />
+            <p className="mt-1 text-xs text-muted">
+              Petit libellé affiché au-dessus du titre.
+            </p>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-green">Titre</label>
             <input
               value={form.title}
               onChange={set("title")}
               className={input}
-              placeholder="Promo solaire -20%"
+              placeholder="Protection solaire à prix discount"
             />
-            <p className="mt-1 text-xs text-muted">
-              Utilisé comme texte alternatif de l&apos;image (accessibilité &amp; SEO).
-            </p>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-green">
+              Sous-titre
+            </label>
+            <textarea
+              value={form.subtitle}
+              onChange={set("subtitle")}
+              rows={2}
+              className={input}
+              placeholder="Écrans SPF 50+ des marques dermatologiques de référence."
+            />
           </div>
 
           <div>
@@ -375,12 +419,40 @@ function BannerForm({
               className={input}
               placeholder="/solaire ou https://…"
             />
+            <p className="mt-1 text-xs text-muted">
+              Toute la bannière est cliquable vers ce lien.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 items-end gap-3">
+            <div>
+              <label className="mb-1 block text-sm font-medium text-green">
+                Texte du bouton
+              </label>
+              <input
+                value={form.ctaText}
+                onChange={set("ctaText")}
+                className={input}
+                placeholder="Découvrir"
+              />
+            </div>
+            <label className="flex items-center gap-2 pb-2 text-sm font-medium text-green">
+              <input
+                type="checkbox"
+                checked={form.showCta}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, showCta: e.target.checked }))
+                }
+                className="h-4 w-4 accent-gold"
+              />
+              Afficher le bouton
+            </label>
           </div>
 
           {imageField(
             "image",
-            "Image desktop * (~1600×520 px)",
-            "Format large ~3:1. Privilégiez une image compressée (< 300 Ko)."
+            "Image de fond desktop * (~1600×600 px)",
+            "Sert de fond sous le texte — évitez le texte dans l'image. Privilégiez une image compressée (< 300 Ko)."
           )}
 
           {imageField(

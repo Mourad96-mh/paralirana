@@ -13,8 +13,13 @@ const BannerSchema = new Schema(
     imageMobile: { type: String, default: '' },
     // Destination du clic : chemin interne (/solaire) ou URL complète.
     link: { type: String, default: '/' },
-    // Texte alternatif (accessibilité + SEO).
-    title: { type: String, default: '' },
+    // Texte superposé sur l'image (rendu en HTML par le site, pas baké dans
+    // l'image) — même schéma que le hero du projet pour-bebe.
+    tag: { type: String, default: '' },      // petite accroche au-dessus du titre
+    title: { type: String, default: '' },    // titre principal de la diapositive
+    subtitle: { type: String, default: '' }, // paragraphe sous le titre
+    ctaText: { type: String, default: '' },  // libellé du bouton
+    showCta: { type: Boolean, default: true },
     // Ordre d'affichage. Plus petit = plus tôt.
     order: { type: Number, default: 0 },
     // Une bannière inactive reste en base mais disparaît du carrousel.

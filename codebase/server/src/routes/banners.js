@@ -40,7 +40,11 @@ router.post('/', auth, async (req, res, next) => {
       image: String(body.image).trim(),
       imageMobile: String(body.imageMobile || '').trim(),
       link: String(body.link || '').trim() || '/',
+      tag: String(body.tag || '').trim(),
       title: String(body.title || '').trim(),
+      subtitle: String(body.subtitle || '').trim(),
+      ctaText: String(body.ctaText || '').trim(),
+      showCta: body.showCta !== false,
       order: Number.isFinite(Number(body.order)) ? Number(body.order) : 0,
       active: body.active !== false,
     });
@@ -62,7 +66,11 @@ router.put('/:id', auth, async (req, res, next) => {
     }
     if (body.imageMobile != null) update.imageMobile = String(body.imageMobile).trim();
     if (body.link != null) update.link = String(body.link).trim() || '/';
+    if (body.tag != null) update.tag = String(body.tag).trim();
     if (body.title != null) update.title = String(body.title).trim();
+    if (body.subtitle != null) update.subtitle = String(body.subtitle).trim();
+    if (body.ctaText != null) update.ctaText = String(body.ctaText).trim();
+    if (body.showCta != null) update.showCta = body.showCta !== false;
     if (body.order != null && Number.isFinite(Number(body.order))) update.order = Number(body.order);
     if (body.active != null) update.active = body.active !== false;
 

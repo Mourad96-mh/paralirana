@@ -68,42 +68,10 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      {/* Hero : carrousel de bannières géré depuis l'admin (/admin/bannieres) ;
-          retombe sur le diaporama produits quand aucune bannière n'est active. */}
+      {/* Hero : diapositives gérées depuis l'admin (/admin/bannieres) — image de
+          fond + texte superposé par diapositive, toute la bannière cliquable.
+          Retombe sur le hero d'origine quand aucune bannière n'est active. */}
       <BannerHero />
-
-      {/* Bandeau texte — toujours rendu côté serveur (H1 + CTA pour le SEO),
-          quel que soit l'état du carrousel. */}
-      <section className="bg-green text-white">
-        <div className="container py-8 lg:py-10">
-          <p className="mb-3 inline-block rounded-full bg-gold/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-light">
-            Parapharmacie en ligne · Maroc
-          </p>
-          <h1 className="font-display text-3xl font-bold leading-tight sm:text-4xl">
-            Parapharmacie en ligne au Maroc,{" "}
-            <span className="text-gold">à prix discount</span>
-          </h1>
-          <p className="mt-3 max-w-xl text-white/85">
-            Soins visage, capillaire, solaire, bébé et compléments
-            alimentaires. Produits 100% authentiques, commande facile sur
-            WhatsApp et livraison partout au Maroc.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link
-              href="/visage"
-              className="rounded-lg bg-gold px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-gold-dark"
-            >
-              Découvrir la boutique
-            </Link>
-            <Link
-              href="/complements-alimentaires"
-              className="rounded-lg border border-white/40 px-5 py-3 font-semibold text-white backdrop-blur-sm transition hover:bg-white/10"
-            >
-              Compléments alimentaires
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Trust bar */}
       <section className="border-b border-black/5 bg-white">

@@ -109,14 +109,19 @@ export function getSubcategory(
 
 export type Banner = {
   id: string;
-  // wide (~3:1) image shown on desktop
+  // wide background image shown on desktop
   image: string;
   // optional square image for mobile; falls back to `image`
   imageMobile?: string;
   // click destination: internal path (/solaire) or full URL
   link: string;
-  // alt text (accessibility + SEO)
+  // text overlaid on the image, rendered as HTML by the hero (not baked
+  // into the image) — same slide shape as the pour-bebe hero
+  tag: string; // small label above the title
   title: string;
+  subtitle: string;
+  ctaText: string; // button label; no button when empty or showCta is false
+  showCta: boolean;
 };
 
 // Shape of a raw banner coming from the baked snapshot or the live API.
@@ -126,7 +131,11 @@ type RawBanner = Record<string, unknown> & {
   image?: string;
   imageMobile?: string;
   link?: string;
+  tag?: string;
   title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  showCta?: boolean;
   order?: number;
   active?: boolean;
 };
@@ -143,7 +152,11 @@ export function normalizeBanners(raw: unknown[]): Banner[] {
       image: b.image as string,
       imageMobile: b.imageMobile || undefined,
       link: b.link || "/",
+      tag: b.tag || "",
       title: b.title || "",
+      subtitle: b.subtitle || "",
+      ctaText: b.ctaText || "",
+      showCta: b.showCta !== false,
       order: typeof b.order === "number" ? b.order : 0,
     }))
     .sort((a, b) => a.order - b.order)
