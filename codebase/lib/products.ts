@@ -13,6 +13,7 @@
 // ---------------------------------------------------------------------------
 
 import rawCategories from "@/lib/categories.data.json";
+import rawBanners from "@/lib/banners.data.json";
 
 export type Subcategory = {
   slug: string; // unique within its parent category
@@ -99,3 +100,55 @@ export function getSubcategory(
 ): Subcategory | undefined {
   return getCategory(categorySlug)?.subcategories.find((s) => s.slug === subSlug);
 }
+
+// ---------------------------------------------------------------------------
+// Hero banners — admin-managed carousel slides on the homepage. Same hybrid
+// pattern as categories: baked snapshot (lib/banners.data.json, synced at
+// build) + live refresh in the browser via lib/banners.tsx.
+// ---------------------------------------------------------------------------
+
+export type Banner = {
+  id: string;
+  // wide (~3:1) image shown on desktop
+  image: string;
+  // optional square image for mobile; falls back to `image`
+  imageMobile?: string;
+  // click destination: internal path (/solaire) or full URL
+  link: string;
+  // alt text (accessibility + SEO)
+  title: string;
+};
+
+// Shape of a raw banner coming from the baked snapshot or the live API.
+type RawBanner = Record<string, unknown> & {
+  _id?: string;
+  id?: string;
+  image?: string;
+  imageMobile?: string;
+  link?: string;
+  title?: string;
+  order?: number;
+  active?: boolean;
+};
+
+// Normalize an arbitrary banner array (baked snapshot or live API response)
+// into app-facing Banner[], active only, sorted by `order`. The public API
+// already filters inactive banners; filtering again keeps the normalizer safe
+// on any payload.
+export function normalizeBanners(raw: unknown[]): Banner[] {
+  return (raw as RawBanner[])
+    .filter((b) => b && b.image && b.active !== false)
+    .map((b, i) => ({
+      id: String(b._id ?? b.id ?? i),
+      image: b.image as string,
+      imageMobile: b.imageMobile || undefined,
+      link: b.link || "/",
+      title: b.title || "",
+      order: typeof b.order === "number" ? b.order : 0,
+    }))
+    .sort((a, b) => a.order - b.order)
+    .map(({ order, ...b }) => b); // drop the sort-only `order` field
+}
+
+// Baked banner snapshot — first paint of the homepage hero (SSG).
+export const banners: Banner[] = normalizeBanners(rawBanners as unknown[]);

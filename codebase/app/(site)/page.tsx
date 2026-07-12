@@ -4,7 +4,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { categories, getCategory } from "@/lib/products";
 import { featuredBrands } from "@/lib/brands";
 import FeaturedProducts from "@/components/FeaturedProducts";
-import HeroCarousel from "@/components/HeroCarousel";
+import BannerHero from "@/components/BannerHero";
 
 
 // Money categories to spotlight (from research/keyword-analysis.md: "écran solaire"
@@ -68,48 +68,39 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-green text-white">
-        {/* Rotating product-image backdrop (live catalog) */}
-        <HeroCarousel />
-        {/* Dark gradient overlay for text legibility */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(18,32,9,0.94) 0%, rgba(30,52,17,0.86) 34%, rgba(43,74,17,0.55) 62%, rgba(43,74,17,0.20) 100%)",
-          }}
-          aria-hidden
-        />
-        <div className="container relative py-20 lg:py-28">
-          <div className="max-w-xl">
-            <p className="mb-3 inline-block rounded-full bg-gold/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-light">
-              Parapharmacie en ligne · Maroc
-            </p>
-            <h1 className="font-display text-4xl font-bold leading-tight sm:text-5xl">
-              Parapharmacie en ligne au Maroc,
-              <br />
-              <span className="text-gold">à prix discount</span>
-            </h1>
-            <p className="mt-4 max-w-md text-white/85">
-              Soins visage, capillaire, solaire, bébé et compléments
-              alimentaires. Produits 100% authentiques, commande facile sur
-              WhatsApp et livraison partout au Maroc.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href="/visage"
-                className="rounded-lg bg-gold px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-gold-dark"
-              >
-                Découvrir la boutique
-              </Link>
-              <Link
-                href="/complements-alimentaires"
-                className="rounded-lg border border-white/40 px-5 py-3 font-semibold text-white backdrop-blur-sm transition hover:bg-white/10"
-              >
-                Compléments alimentaires
-              </Link>
-            </div>
+      {/* Hero : carrousel de bannières géré depuis l'admin (/admin/bannieres) ;
+          retombe sur le diaporama produits quand aucune bannière n'est active. */}
+      <BannerHero />
+
+      {/* Bandeau texte — toujours rendu côté serveur (H1 + CTA pour le SEO),
+          quel que soit l'état du carrousel. */}
+      <section className="bg-green text-white">
+        <div className="container py-8 lg:py-10">
+          <p className="mb-3 inline-block rounded-full bg-gold/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-light">
+            Parapharmacie en ligne · Maroc
+          </p>
+          <h1 className="font-display text-3xl font-bold leading-tight sm:text-4xl">
+            Parapharmacie en ligne au Maroc,{" "}
+            <span className="text-gold">à prix discount</span>
+          </h1>
+          <p className="mt-3 max-w-xl text-white/85">
+            Soins visage, capillaire, solaire, bébé et compléments
+            alimentaires. Produits 100% authentiques, commande facile sur
+            WhatsApp et livraison partout au Maroc.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href="/visage"
+              className="rounded-lg bg-gold px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-gold-dark"
+            >
+              Découvrir la boutique
+            </Link>
+            <Link
+              href="/complements-alimentaires"
+              className="rounded-lg border border-white/40 px-5 py-3 font-semibold text-white backdrop-blur-sm transition hover:bg-white/10"
+            >
+              Compléments alimentaires
+            </Link>
           </div>
         </div>
       </section>

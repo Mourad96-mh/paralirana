@@ -72,12 +72,21 @@ export const adminApi = {
     request(`/api/categories/${id}`, { method: "PUT", body: b, auth: true }),
   deleteCategory: (id: string) => request(`/api/categories/${id}`, { method: "DELETE", auth: true }),
 
+  // /all inclut les bannières inactives (le GET public ne renvoie que les actives).
+  listBanners: () => request("/api/banners/all", { auth: true }),
+  createBanner: (b: unknown) => request("/api/banners", { method: "POST", body: b, auth: true }),
+  updateBanner: (id: string, b: unknown) =>
+    request(`/api/banners/${id}`, { method: "PUT", body: b, auth: true }),
+  deleteBanner: (id: string) => request(`/api/banners/${id}`, { method: "DELETE", auth: true }),
+
   listOrders: () => request("/api/orders", { auth: true }),
   updateOrderStatus: (id: string, status: string) =>
     request(`/api/orders/${id}`, { method: "PATCH", body: { status }, auth: true }),
 
-  async upload(file: File) {
+  async upload(file: File, folder?: string) {
     const fd = new FormData();
+    // Le champ texte doit précéder le fichier pour que multer le parse à temps.
+    if (folder) fd.append("folder", folder);
     fd.append("file", file);
     return request("/api/uploads", { method: "POST", body: fd, auth: true, isForm: true });
   },

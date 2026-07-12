@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outFile = path.resolve(__dirname, "../lib/catalog.data.json");
 const categoriesFile = path.resolve(__dirname, "../lib/categories.data.json");
+const bannersFile = path.resolve(__dirname, "../lib/banners.data.json");
 
 // Charge .env.local (ce script tourne hors de Next, qui sinon lirait le fichier lui-même).
 function loadEnvLocal() {
@@ -46,6 +47,7 @@ async function main() {
   }
   await syncCollection("/api/products", outFile, "produits");
   await syncCollection("/api/categories", categoriesFile, "catégories");
+  await syncCollection("/api/banners", bannersFile, "bannières");
 }
 
 main();
