@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "_id": "6a553ed96ad8eb7d8c77a6d9",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783972544/paralirana/banners/ibxayxajn6p3tgzrmyoe.png",
+    "imageMobile": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783972595/paralirana/banners/jjsv09wmmqoy5z8gt0ti.png",
+    "link": "https://paralirana.com/",
+    "tag": "entete",
+    "title": "titre",
+    "subtitle": "sous titre",
+    "ctaText": "Afficher",
+    "showCta": true,
+    "order": 1,
+    "active": true,
+    "createdAt": "2026-07-13T19:39:05.944Z",
+    "updatedAt": "2026-07-13T19:56:40.961Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a5544856ad8eb7d8c77a7aa",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783973082/paralirana/banners/vcgksorsffckqibhi9km.png",
+    "imageMobile": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783972994/paralirana/banners/ccznhfnwhvaavwr2jr1o.png",
+    "link": "https://paralirana.com/corps/",
+    "tag": "enetete 2",
+    "title": "titre 2",
+    "subtitle": "sous-titre 2",
+    "ctaText": "Découvrir",
+    "showCta": true,
+    "order": 2,
+    "active": true,
+    "createdAt": "2026-07-13T20:03:17.721Z",
+    "updatedAt": "2026-07-13T20:04:45.131Z",
+    "__v": 0
+  }
+]

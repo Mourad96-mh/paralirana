@@ -1,14 +1,14 @@
 [
   {
-    "_id": "6a4e95b432ff40d9803d1fa9",
-    "slug": "visage",
-    "name": "Visage",
+    "_id": "6a5540b16ad8eb7d8c77a715",
+    "slug": "visage-2",
+    "name": "Visage 2",
     "tagline": "Soins du visage, nettoyants et anti-âge",
-    "icon": "🧴",
-    "image": "/products/cerave-creme-hydratante-visage.png",
+    "icon": "🏷️",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783972012/paralirana/products/ncw81dualjvrqqkklqko.png",
     "subcategories": [
       {
-        "slug": "nettoyants",
+        "slug": "nettoyants-demaquillants",
         "name": "Nettoyants & Démaquillants"
       },
       {
@@ -16,7 +16,7 @@
         "name": "Hydratants"
       },
       {
-        "slug": "serums",
+        "slug": "serums-traitements",
         "name": "Sérums & Traitements"
       },
       {
@@ -25,8 +25,8 @@
       }
     ],
     "order": 1,
-    "createdAt": "2026-07-08T18:23:48.943Z",
-    "updatedAt": "2026-07-08T18:23:48.943Z",
+    "createdAt": "2026-07-13T19:46:57.799Z",
+    "updatedAt": "2026-07-13T19:53:37.363Z",
     "__v": 0
   },
   {
@@ -193,6 +193,36 @@
     "order": 8,
     "createdAt": "2026-07-08T18:23:49.719Z",
     "updatedAt": "2026-07-08T18:23:49.719Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a4e95b432ff40d9803d1fa9",
+    "slug": "visage",
+    "name": "Visage",
+    "tagline": "Soins du visage, nettoyants et anti-âge",
+    "icon": "🧴",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783971744/paralirana/products/v8vzkxdmg0xrux572ljw.png",
+    "subcategories": [
+      {
+        "slug": "nettoyants-demaquillants",
+        "name": "Nettoyants & Démaquillants"
+      },
+      {
+        "slug": "hydratants",
+        "name": "Hydratants"
+      },
+      {
+        "slug": "serums-traitements",
+        "name": "Sérums & Traitements"
+      },
+      {
+        "slug": "anti-age",
+        "name": "Anti-âge"
+      }
+    ],
+    "order": 9,
+    "createdAt": "2026-07-08T18:23:48.943Z",
+    "updatedAt": "2026-07-13T19:48:11.278Z",
     "__v": 0
   }
 ]

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { categories } from "@/lib/products";
 import { cities } from "@/lib/cities";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import PhoneIcon from "@/components/PhoneIcon";
+import FooterCategories from "@/components/FooterCategories";
 import { PHONE_DISPLAY, ADDRESS_FULL } from "@/lib/format";
 
 export default function Footer() {
@@ -34,15 +34,7 @@ export default function Footer() {
 
         <div>
           <h3 className="mb-3 text-sm font-semibold text-white">Catégories</h3>
-          <ul className="space-y-1.5 text-sm">
-            {categories.slice(0, 6).map((c) => (
-              <li key={c.slug}>
-                <Link href={`/${c.slug}`} className="hover:text-gold-light">
-                  {c.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <FooterCategories />
         </div>
 
         <div>

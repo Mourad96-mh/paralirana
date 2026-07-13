@@ -51,10 +51,6 @@ function StaticHeroText() {
   );
 }
 
-// Dégradé de lisibilité identique au hero d'origine.
-const GRADIENT =
-  "linear-gradient(to right, rgba(18,32,9,0.94) 0%, rgba(30,52,17,0.86) 34%, rgba(43,74,17,0.55) 62%, rgba(43,74,17,0.20) 100%)";
-
 export default function BannerHero() {
   const { banners } = useBanners();
 
@@ -62,7 +58,6 @@ export default function BannerHero() {
     return (
       <section className="relative overflow-hidden bg-green text-white">
         <HeroCarousel />
-        <div className="absolute inset-0" style={{ backgroundImage: GRADIENT }} aria-hidden />
         <div className="container relative py-20 lg:py-28">
           <div className="max-w-xl">
             <StaticHeroText />
@@ -155,9 +150,6 @@ function HeroSlides({ banners }: { banners: Banner[] }) {
           />
         </picture>
       ))}
-
-      {/* Dégradé de lisibilité */}
-      <div className="absolute inset-0" style={{ backgroundImage: GRADIENT }} aria-hidden />
 
       {/* Toute la bannière est cliquable */}
       {slide.link && (
