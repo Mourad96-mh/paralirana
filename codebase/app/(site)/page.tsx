@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
-import { categories, getCategory } from "@/lib/products";
+import { getCategory } from "@/lib/products";
 import { featuredBrands } from "@/lib/brands";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import BannerHero from "@/components/BannerHero";
+import CategoryGrid from "@/components/CategoryGrid";
 
 
 // Money categories to spotlight (from research/keyword-analysis.md: "écran solaire"
@@ -123,35 +123,7 @@ export default function HomePage() {
         <h2 className="font-display text-2xl font-bold text-green">
           Parcourir par catégorie
         </h2>
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {categories.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/${c.slug}`}
-              className="group overflow-hidden rounded-xl border border-black/5 bg-white transition hover:shadow-md"
-            >
-              <div className="relative aspect-square w-full bg-cream/60">
-                {c.image ? (
-                  <Image
-                    src={c.image}
-                    alt={c.name}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                    className="object-contain p-3 transition duration-300 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-4xl">
-                    {c.icon}
-                  </div>
-                )}
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-green">{c.name}</h3>
-                <p className="mt-1 text-xs text-muted">{c.tagline}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <CategoryGrid />
       </section>
 
       {/* Spotlight money categories */}

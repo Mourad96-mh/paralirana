@@ -4,6 +4,7 @@ import { CategoriesProvider } from "@/lib/categories";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ScrollToTop from "@/components/ScrollToTop";
 import {
   SITE_URL,
   PHONE_TEL,
@@ -48,6 +49,7 @@ export default function SiteLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
           />
+          <ScrollToTop />
           <Navbar />
           <main>{children}</main>
           <Footer />

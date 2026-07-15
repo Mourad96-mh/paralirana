@@ -1,11 +1,11 @@
 [
   {
     "_id": "6a5540b16ad8eb7d8c77a715",
-    "slug": "visage-2",
-    "name": "Visage 2",
+    "slug": "visage-4",
+    "name": "Visage_4",
     "tagline": "Soins du visage, nettoyants et anti-âge",
     "icon": "🏷️",
-    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783972012/paralirana/products/ncw81dualjvrqqkklqko.png",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1784137671/paralirana/products/zmtbso8f3cbn5ulxljvz.png",
     "subcategories": [
       {
         "slug": "nettoyants-demaquillants",
@@ -26,7 +26,37 @@
     ],
     "order": 1,
     "createdAt": "2026-07-13T19:46:57.799Z",
-    "updatedAt": "2026-07-13T19:53:37.363Z",
+    "updatedAt": "2026-07-15T17:55:52.140Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a57c94b55490a32772f99a5",
+    "slug": "test",
+    "name": "test",
+    "tagline": "test",
+    "icon": "🏷️",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1784138051/paralirana/products/a8mgznuqmndrfmlyu6ak.png",
+    "subcategories": [
+      {
+        "slug": "nettoyants-demaquillants",
+        "name": "Nettoyants & Démaquillants"
+      },
+      {
+        "slug": "hydratants",
+        "name": "Hydratants"
+      },
+      {
+        "slug": "serums-traitements",
+        "name": "Sérums & Traitements"
+      },
+      {
+        "slug": "anti-age",
+        "name": "Anti-âge"
+      }
+    ],
+    "order": 1,
+    "createdAt": "2026-07-15T17:54:19.386Z",
+    "updatedAt": "2026-07-15T17:55:56.346Z",
     "__v": 0
   },
   {
@@ -35,20 +65,20 @@
     "name": "Corps",
     "tagline": "Hydratation et soins du corps",
     "icon": "🫧",
-    "image": "/products/avene-cold-cream-corps.png",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1784137814/paralirana/products/fb98wrzb4hviqrpsfgyw.png",
     "subcategories": [
       {
-        "slug": "hydratants-corps",
+        "slug": "laits-cremes-corps",
         "name": "Laits & Crèmes corps"
       },
       {
-        "slug": "nettoyants-corps",
+        "slug": "gels-baumes-lavants",
         "name": "Gels & Baumes lavants"
       }
     ],
     "order": 2,
     "createdAt": "2026-07-08T18:23:49.056Z",
-    "updatedAt": "2026-07-08T18:23:49.056Z",
+    "updatedAt": "2026-07-15T17:50:22.549Z",
     "__v": 0
   },
   {
@@ -145,6 +175,24 @@
     "order": 6,
     "createdAt": "2026-07-08T18:23:49.449Z",
     "updatedAt": "2026-07-08T18:23:49.449Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a57ca3955490a32772f99c8",
+    "slug": "test-categ",
+    "name": "Test_Categ",
+    "tagline": "",
+    "icon": "🏷️",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1784138285/paralirana/products/y8sl2wxiegix1hmfnpbv.png",
+    "subcategories": [
+      {
+        "slug": "nettoyants",
+        "name": "Nettoyants"
+      }
+    ],
+    "order": 6,
+    "createdAt": "2026-07-15T17:58:17.558Z",
+    "updatedAt": "2026-07-15T17:59:15.359Z",
     "__v": 0
   },
   {

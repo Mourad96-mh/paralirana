@@ -1,5 +1,21 @@
 [
   {
+    "_id": "6a57c8b055490a32772f9992",
+    "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1784137894/paralirana/banners/yjdpeer6rulnkg4qw7bx.png",
+    "imageMobile": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1784137901/paralirana/banners/qiqi7ws60bpejxzxkstc.png",
+    "link": "https://www.paralirana.com/produit/sensibio-h2o-eau-micellaire-500ml/",
+    "tag": "Offre 3",
+    "title": "titre 3",
+    "subtitle": "sous-titre 3",
+    "ctaText": "découvrir 3",
+    "showCta": true,
+    "order": 0,
+    "active": true,
+    "createdAt": "2026-07-15T17:51:44.953Z",
+    "updatedAt": "2026-07-15T17:51:44.953Z",
+    "__v": 0
+  },
+  {
     "_id": "6a553ed96ad8eb7d8c77a6d9",
     "image": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783972544/paralirana/banners/ibxayxajn6p3tgzrmyoe.png",
     "imageMobile": "https://res.cloudinary.com/ddmfn5mwi/image/upload/v1783972595/paralirana/banners/jjsv09wmmqoy5z8gt0ti.png",
